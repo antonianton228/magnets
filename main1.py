@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 
 m0 = 4 * math.pi * 10 ** -7
 
-def get_coords(x0=-13.2 * 10 ** -2, y0=0, r=4 * 10 ** -2, m=0.63, count_of_magnets=3):
+def get_coords(x0=-13.2 * 10 ** -2, y0=0, r=2.5 * 10 ** -2, m=0.63, count_of_magnets=3):
     delta_angle = 2 * math.pi / count_of_magnets
     list_of_main_coords = []
     list_of_second_coords = []
@@ -102,19 +102,19 @@ def interpolate_and_differentiate(matrix, a, b):
 
 
 
-# e = energy_matrix(x0=-11.5*10**-2, count_of_magnets=4)
-# r = e
-# # for i in range(3):
-# #     for j in range(len(e)):
-# #         r.append(e[j] + e[j] + e[j])
-#
-#
-#
-# a = open('energy3_1_4spin.csv', 'w')
-# for x in r:
-#     a.write(';'.join(map(str, x)) + '\n')
-# a.close()
-# exit()
+e = energy_matrix(x0=-10*10**-2, count_of_magnets=3, r=3*10**-2)
+r = e
+# for i in range(3):
+#     for j in range(len(e)):
+#         r.append(e[j] + e[j] + e[j])
+
+
+
+a = open('energy3_test_magnets.csv', 'w')
+for x in r:
+    a.write(';'.join(map(str, x)) + '\n')
+a.close()
+exit()
 
 
 
@@ -129,12 +129,12 @@ import matplotlib.animation as animation
 fig = plt.figure()
 ax1 = fig.add_subplot(1, 1, 1, )
 
-a = list(map(lambda x: list(map(float, x.split(',')[:])), open('4loposti.csv').readlines()))
-k=4
+a = list(map(lambda x: list(map(float, x.split(',')[:])), open('4loposti_new.csv').readlines()))
+k=3
 c = 0
-d= 11.5 * 10**-2
-coords1 = get_coords(x0=-d, count_of_magnets=k)
-coords2 = get_coords(x0=d, count_of_magnets=k)
+d=-11.5 * 10**-2
+coords1 = get_coords(x0=-d, count_of_magnets=k, r=4*10**-2)
+coords2 = get_coords(x0=d, count_of_magnets=k,r=4*10**-2)
 colors = ['red', 'blue']
 def animate(i):
     global c
@@ -162,37 +162,28 @@ def animate(i):
                 ys1.append(y)
                 xs1.append(d)
                 ys1.append(0)
-    for j in range(k):
-        x, y = coords2[i][int(a[c][2])][0][j] + d, coords2[i][int(a[c][2])][1][j]
-        xs2.append(2 * d)
-        ys2.append(0)
-        xs2.append(x)
-        ys2.append(y)
-        xs2.append(2 * d)
-        ys2.append(0)
 
-    rxs.append(-0.04)
-    rys.append(-0.1)
-    rxs.append(0.28)
-    rys.append(-0.1)
-    rxs.append(-0.03)
-    rys.append(0.1)
-    rxs.append(0.28)
-    rys.append(0.1)
+    rxs.append(-0.16)
+    rys.append(-0.07)
+    rxs.append(0.05)
+    rys.append(-0.05)
+    rxs.append(-0.16)
+    rys.append(0.05)
+    rxs.append(0.05)
+    rys.append(0.07)
     if c % 10 == 0:
         print(c, len(a))
 
     if c < len(a):
-        c += 6
+        c += 25
     ax1.clear()
     ax1.plot(xs1, ys1, c='red', linewidth=10)
     ax1.plot(xs, ys, c='blue', linewidth=10)
     ax1.plot(xs2, ys2, c='cyan', linewidth=10)
     ax1.plot(rxs, rys,'o', c='white')
-
+#
 ani = animation.FuncAnimation(fig, animate, repeat=False, interval=1)
 #plt.show()
 FFwriter = animation.PillowWriter()
-ani.save('3spinners_4_lopasti.gif', writer=FFwriter)
-#ani.save('orbita.gif', writer='imagemagick', fps=60)
-
+ani.save('3_4cm_spinners.gif', writer=FFwriter)
+#
